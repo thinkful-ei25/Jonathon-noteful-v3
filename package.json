@@ -8,8 +8,8 @@
 	},
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
-		"test": "cross-env NODE_ENV=test mocha",
+    "start": "node server.js",
+    "test": "cross-env NODE_ENV=test mocha",
 		"seed": "node ./utils/seed-database.js"
 	},
 	"dependencies": {
