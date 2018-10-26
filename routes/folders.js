@@ -10,7 +10,14 @@ const router = express.Router();
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
   const { searchTerm } = req.query;
-  Folder.find(searchTerm)
+
+  let filter = {};
+
+  if (searchTerm) {
+    filter.name = { $regex: searchTerm, $options: 'i' };
+  }
+
+  Folder.find(filter)
     .sort({ name: 'asc' })
     .then(results => {
       res.json(results);
@@ -84,7 +91,7 @@ router.put('/:id', (req, res, next) => {
   }
 
   if (!name) {
-    const err = new Error('Missing `title` in request body');
+    const err = new Error('Missing `name` in request body');
     err.status = 400;
     return next(err);
   }
