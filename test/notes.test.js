@@ -148,7 +148,6 @@ describe('Noteful API - Notes', function () {
     });
 
     it('should respond with a 404 for an id that does not exist', function () {
-      // The string "DOESNOTEXIST" is 12 bytes which is a valid Mongo ObjectId
       return chai.request(app)
         .get('/api/notes/DOESNOTEXIST')
         .then(res => {

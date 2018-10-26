@@ -9,7 +9,7 @@ const router = express.Router();
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
-  const { searchTerm , folderId, tags} = req.query;
+  const {searchTerm} = req.query;
 
   let filter = {};
 
@@ -20,6 +20,7 @@ router.get('/', (req, res, next) => {
 
   Note.find(filter)
     .sort({ updatedAt: 'desc' })
+    .populate('folderId')
     .then(results => {
       res.json(results);
     })
@@ -38,7 +39,8 @@ router.get('/:id', (req, res, next) => {
     return next(err);
   }
 
-  Note.findById(id)
+  Note.findById(id) 
+    .populate('folderId')
     .then(result => {
       if (result) {
         res.json(result);
@@ -96,6 +98,7 @@ router.put('/:id', (req, res, next) => {
   const updateNote = { title, content };
 
   Note.findByIdAndUpdate(id, updateNote, { new: true })
+    .populate('folderId')
     .then(result => {
       if (result) {
         res.json(result);
