@@ -10,18 +10,7 @@ const router = express.Router();
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/', (req, res, next) => {
   const { searchTerm } = req.query;
-
-  let filter = {};
-
-  if (searchTerm) {
-    filter.title = { $regex: searchTerm, $options: 'i' };
-
-    // Mini-Challenge: Search both `title` and `content`
-    // const re = new RegExp(searchTerm, 'i');
-    // filter.$or = [{ 'title': re }, { 'content': re }];
-  }
-
-  Folder.find(filter)
+  Folder.find(searchTerm)
     .sort({ name: 'asc' })
     .then(results => {
       res.json(results);
