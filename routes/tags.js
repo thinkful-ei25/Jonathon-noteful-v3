@@ -11,8 +11,13 @@ const router = express.Router();
 
 router.get('/', (req, res, next) => {
   const {searchTerm} = req.query;
-  
-  Tags.find(searchTerm)
+  let filter = {};
+
+  if (searchTerm) {
+    filter.name = { $regex: searchTerm, $options: 'i' };
+  }
+
+  Tags.find(filter)
     .sort({ updatedAt: 'desc' })
     .then(results => {
       res.json(results);
